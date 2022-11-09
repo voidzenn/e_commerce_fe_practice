@@ -1,4 +1,5 @@
 export default {
   homePage: '/',
-  signIn: '/sign_in',
+  signin: '/signin',
+  signup: '/signup',
 } as const;

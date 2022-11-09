@@ -1,9 +1,15 @@
 import routes from 'constants/routes';
-import Home from 'pages/Home';
+import Signin from 'features/Common/Signin';
 import DefaultLayout from 'layouts/DefaultLayout';
+import Signup from 'features/Common/Signup';
 
 const Routes = () => {
-  return <DefaultLayout path={routes.homePage} element={<Home />} />;
+  return (
+    <div>
+      <DefaultLayout path={routes.homePage} element={<Signin />} />
+      <DefaultLayout path={routes.signup} element={<Signup />} />
+    </div>
+  );
 };
 
 export default Routes;
