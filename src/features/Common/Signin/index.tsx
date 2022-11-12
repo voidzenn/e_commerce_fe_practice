@@ -1,19 +1,28 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { useGetTodosQuery } from './ApiSlice';
 
 import Button from 'common/Components/Button';
 import Card from 'common/Components/Card';
 
 import routes from 'constants/routes';
-import { useEffect } from 'react';
 
-import { getData, fetchTodos } from 'slices/AuthSlice';
+import { getData, fetchTodos } from './Slice';
 
 const Sigin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<any>();
 
-  const users: [] = useSelector((state: any) => state.auth.users);
+  // const users: [] = useSelector((state: any) => state.auth.users);
+
+  // const {
+  //   data: todos,
+  //   isLoading,
+  //   isSuccess,
+  //   isError,
+  //   error,
+  // } = useGetTodosQuery();
 
   const handleNavigation = () => {
     navigate(routes.signup);
@@ -23,23 +32,17 @@ const Sigin = () => {
     dispatch(getData());
   };
 
-  useEffect(() => {
-    dispatch(fetchTodos());
-  }, []);
-
-  useEffect(() => {
-    if (users !== null) {
-      console.log(users);
-    }
-  }, [users]);
+  // useEffect(() => {
+  //   console.log(todos);
+  // }, [todos]);
 
   return (
     <div className="flex flex-col items-center justify-center flext-auto h-screen mx-auto content-center bg-[#F3F7F9]">
       <div className="w-full">
         <button onClick={() => handleClick()}>123</button>
-        {users?.map((user: any) => {
+        {/* {users?.map((user: any) => {
           return <p key={user.id}>{user.title}</p>;
-        })}
+        })} */}
         <div className="flex flex-row items-center justify-center">
           <Card
             width="w-3/12"

@@ -8,6 +8,8 @@ import './index.css';
 
 import { store } from './store';
 import reportWebVitals from './reportWebVitals';
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { apiSigninSlice } from 'features/Common/Signin/ApiSlice';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +18,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <ApiProvider api={apiSigninSlice}>
+          <App />
+        </ApiProvider>
       </BrowserRouter>
     </Provider>
   </React.StrictMode>
