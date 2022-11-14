@@ -1,8 +1,8 @@
 import routes from 'constants/routes';
-import Signin from 'features/Common/Signin';
+import Signin from 'features/common/Signin';
 import DefaultLayout from 'layouts/DefaultLayout';
-import Signup from 'features/Common/Signup';
-import { apiSigninSlice } from 'features/Common/Signin/ApiSlice';
+import Signup from 'features/common/Signup';
+import { signinApi } from 'services/signin.api';
 
 const Routes = () => {
   return (
@@ -10,7 +10,7 @@ const Routes = () => {
       <DefaultLayout
         path={routes.homePage}
         element={<Signin />}
-        api={apiSigninSlice}
+        api={signinApi}
       />
       <DefaultLayout path={routes.signup} element={<Signup />} />
     </div>

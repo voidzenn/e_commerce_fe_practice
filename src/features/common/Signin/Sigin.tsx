@@ -1,28 +1,32 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useGetTodosQuery } from './ApiSlice';
+// import { useGetTodosQuery } from 'services/signup.api';
 
-import Button from 'common/Components/Button';
-import Card from 'common/Components/Card';
+import Button from 'common/components/Button';
+import Card from 'common/components/Card';
+import FormInput from 'common/components/FormInput/FormInput';
 
 import routes from 'constants/routes';
-
-import { getData, fetchTodos } from './Slice';
+import { getData, fetchTodos } from './signin.slice';
 
 const Sigin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<any>();
 
+  const labelStyle = 'w-full';
+  const inputStyle =
+    'border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm w-full text-lg px-2 mt-2';
+
   // const users: [] = useSelector((state: any) => state.auth.users);
 
   // const {
   //   data: todos,
+  //   error,
   //   isLoading,
   //   isSuccess,
   //   isError,
-  //   error,
-  // } = useGetTodosQuery();
+  // } = useGetTodosQuery('');
 
   const handleNavigation = () => {
     navigate(routes.signup);
@@ -36,10 +40,13 @@ const Sigin = () => {
   //   console.log(todos);
   // }, [todos]);
 
+  useEffect(() => {
+    console.log(process.env.REACT_APP_BASE_URL_ALT);
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center flext-auto h-screen mx-auto content-center bg-[#F3F7F9]">
       <div className="w-full">
-        <button onClick={() => handleClick()}>123</button>
         {/* {users?.map((user: any) => {
           return <p key={user.id}>{user.title}</p>;
         })} */}
@@ -50,30 +57,32 @@ const Sigin = () => {
             otherProps="min-w-[500px]"
             children={
               <form>
-                <div className="mx-10 my-10">
+                <div className="mx-10 my-5">
                   <div className="flex justify-center">
-                    <div className="w-28">
-                      <label className="text-lg">Email</label>
-                    </div>
                     <div className="w-full">
-                      <input
-                        className="border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm w-full text-lg px-2"
-                        type="text"
+                      <FormInput
+                        label="Email"
+                        name="email"
+                        labelClass={labelStyle}
+                        inputClass={inputStyle}
+                        isRequired={true}
+                        hasAsterisk={false}
                       />
                     </div>
                   </div>
-                  <div className="flex justify-center mt-10">
-                    <div className="w-28">
-                      <label className="text-lg">Password</label>
-                    </div>
+                  <div className="flex justify-center mt-5">
                     <div className="w-full">
-                      <input
-                        className="border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm w-full text-lg px-2"
-                        type="text"
+                      <FormInput
+                        label="Password"
+                        name="password"
+                        labelClass={labelStyle}
+                        inputClass={inputStyle}
+                        isRequired={true}
+                        hasAsterisk={false}
                       />
                     </div>
                   </div>
-                  <div className="flex justify-center mt-20">
+                  <div className="flex justify-center mt-14">
                     <Button
                       width="w-96"
                       height="h-10"
@@ -92,7 +101,7 @@ const Sigin = () => {
                         className="text-blue-400 font-bold hover:cursor-pointer"
                         onClick={handleNavigation}
                       >
-                        Register Now
+                        Signup
                       </span>
                     </p>
                   </div>
