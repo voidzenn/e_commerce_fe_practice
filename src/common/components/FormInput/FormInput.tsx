@@ -1,14 +1,19 @@
-interface IProps {
+import { InputHTMLAttributes } from 'react';
+import { FieldValues, UseFormRegister } from 'react-hook-form';
+
+interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
-  name: string;
   type?: string;
   isRequired?: boolean;
   labelClass?: string;
   inputClass?: string;
   hasAsterisk?: boolean;
+  register: UseFormRegister<FieldValues>;
+  name: string;
 }
 
 const FormInput = ({
+  register,
   label,
   name,
   type = 'text',
@@ -24,9 +29,9 @@ const FormInput = ({
       </label>
       <input
         className={inputClass}
-        name={name}
         type={type}
         required={isRequired}
+        {...register(name)}
       />
     </div>
   );

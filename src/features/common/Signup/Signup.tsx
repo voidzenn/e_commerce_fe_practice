@@ -1,5 +1,5 @@
-import { FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
 import Button from 'common/components/Button';
 import Card from 'common/components/Card';
@@ -10,25 +10,33 @@ import routes from 'constants/routes';
 import { useSignupMutation } from 'services/signup.api';
 
 const Signup = () => {
+  /* Initialization Start */
   const navigate = useNavigate();
   const [signup, { isLoading }] = useSignupMutation();
+  const { register, control, handleSubmit } = useForm();
+  /* Initialization End */
 
+  /* Styles Start */
   const labelStyle = 'text-lg w-full';
   const inputStyle =
     'border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm w-full text-lg px-2';
   const selectStyle =
     'border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm w-full h-8 text-lg px-2 bg-white';
+  /* Styles End */
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    const data = new FormData(e.target);
-    await signup(data); 
+  /* Functions Start */
+  const handleSignup = async (formValues: any) => {
+    // e.preventDefault();
+    // const data = new FormData(e.target);
+    // await signup(data);
     // console.log(Object.fromEntries(data.entries()));
+    console.log(formValues);
   };
 
   const handleNavigation = () => {
     navigate(routes.homePage);
   };
+  /* Functions End */
 
   return (
     <div className="flex flex-col items-center justify-center flext-auto h-screen mx-auto content-center bg-[#F3F7F9]">
@@ -39,11 +47,12 @@ const Signup = () => {
             height="h-5/12"
             otherProps="min-w-[500px]"
             children={
-              <form onSubmit={(e) => handleSubmit(e)}>
+              <form onSubmit={handleSubmit(handleSignup)}>
                 <div className="mx-5 my-10">
                   <div className="flex gap-4 mb-4">
                     <div className="w-1/2">
                       <FormInput
+                        register={register}
                         labelClass={labelStyle}
                         inputClass={inputStyle}
                         label="First Name"
@@ -58,6 +67,7 @@ const Signup = () => {
                         label="Last Name"
                         name="lname"
                         isRequired={true}
+                        register={register}
                       />
                     </div>
                   </div>
@@ -69,6 +79,7 @@ const Signup = () => {
                         label="Address"
                         name="address"
                         isRequired={true}
+                        register={register}
                       />
                     </div>
                   </div>
@@ -79,6 +90,7 @@ const Signup = () => {
                         inputClass={inputStyle}
                         label="Age"
                         name="age"
+                        register={register}
                       />
                     </div>
                     <div className="w-1/2">
@@ -111,6 +123,7 @@ const Signup = () => {
                         label="Email"
                         name="email"
                         isRequired={true}
+                        register={register}
                       />
                     </div>
                     <div className="w-1/2">
@@ -120,6 +133,7 @@ const Signup = () => {
                         label="Confirm Email"
                         name="confirm_email"
                         isRequired={true}
+                        register={register}
                       />
                     </div>
                   </div>
@@ -131,6 +145,7 @@ const Signup = () => {
                         label="Password"
                         name="password"
                         isRequired={true}
+                        register={register}
                       />
                     </div>
                     <div className="w-1/2">
@@ -140,6 +155,7 @@ const Signup = () => {
                         label="Confirm Password"
                         name="confirm_password"
                         isRequired={true}
+                        register={register}
                       />
                     </div>
                   </div>

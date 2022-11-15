@@ -60,26 +60,26 @@ const Sigin = () => {
                 <div className="mx-10 my-5">
                   <div className="flex justify-center">
                     <div className="w-full">
-                      <FormInput
+                      {/* <FormInput
                         label="Email"
                         name="email"
                         labelClass={labelStyle}
                         inputClass={inputStyle}
                         isRequired={true}
                         hasAsterisk={false}
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="flex justify-center mt-5">
                     <div className="w-full">
-                      <FormInput
+                      {/* <FormInput
                         label="Password"
                         name="password"
                         labelClass={labelStyle}
                         inputClass={inputStyle}
                         isRequired={true}
                         hasAsterisk={false}
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="flex justify-center mt-14">
