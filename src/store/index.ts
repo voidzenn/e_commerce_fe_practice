@@ -7,4 +7,6 @@ export const store = configureStore({
     [signinApi.reducerPath]: signinApi.reducer,
     [signupApi.reducerPath]: signupApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(signupApi.middleware),
 });

@@ -1,15 +1,19 @@
 import { InputHTMLAttributes } from 'react';
-import { FieldValues, UseFormRegister } from 'react-hook-form';
+import { FieldError, FieldValues, UseFormRegister } from 'react-hook-form';
+
+import './form-input.css';
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+  name: string;
+  register: UseFormRegister<FieldValues>;
   label?: string;
-  type?: string;
+  type?: 'text' | 'number' | 'password';
   isRequired?: boolean;
   labelClass?: string;
   inputClass?: string;
   hasAsterisk?: boolean;
-  register: UseFormRegister<FieldValues>;
-  name: string;
+  errors?: any;
+  autoComplete?: string;
 }
 
 const FormInput = ({
@@ -21,6 +25,8 @@ const FormInput = ({
   labelClass,
   inputClass,
   hasAsterisk = isRequired,
+  errors,
+  autoComplete = 'off',
 }: IProps) => {
   return (
     <div>
@@ -32,7 +38,9 @@ const FormInput = ({
         type={type}
         required={isRequired}
         {...register(name)}
+        autoComplete={autoComplete}
       />
+      <div className="text-red-700">{errors}</div>
     </div>
   );
 };

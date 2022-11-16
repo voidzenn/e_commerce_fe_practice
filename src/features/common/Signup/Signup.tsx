@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { useForm, useController } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z, { number, string } from 'zod';
 
 import Button from 'common/components/Button';
 import Card from 'common/components/Card';
@@ -9,11 +11,37 @@ import FormSelect from 'common/components/FormSelect/FormSelect';
 import routes from 'constants/routes';
 import { useSignupMutation } from 'services/signup.api';
 
+const schema = z
+  .object({
+    fname: string(),
+    lname: string(),
+    address: string(),
+    age: string() || number().nullable(),
+    gender: string().nullable(),
+    email: string().email(),
+    confirm_email: string().email(),
+    password: string().min(8, { message: 'Minimum of 8 characters' }),
+    confirm_password: string(),
+  })
+  .refine((data) => data.email === data.confirm_email, {
+    message: 'Email does not match',
+    path: ['confirm_email'],
+  })
+  .refine((data) => data.password === data.confirm_password, {
+    message: 'Password does not match',
+    path: ['confirm_password'],
+  });
+
 const Signup = () => {
   /* Initialization Start */
   const navigate = useNavigate();
   const [signup, { isLoading }] = useSignupMutation();
-  const { register, control, handleSubmit } = useForm();
+  const { register, control, handleSubmit, formState } = useForm({
+    resolver: zodResolver(schema),
+  });
+  const { field } = useController({ name: 'gender', control });
+
+  const { errors } = formState;
   /* Initialization End */
 
   /* Styles Start */
@@ -28,13 +56,17 @@ const Signup = () => {
   const handleSignup = async (formValues: any) => {
     // e.preventDefault();
     // const data = new FormData(e.target);
-    // await signup(data);
+    await signup(formValues);
     // console.log(Object.fromEntries(data.entries()));
-    console.log(formValues);
+    console.log(errors);
   };
 
   const handleNavigation = () => {
     navigate(routes.homePage);
+  };
+
+  const handleChange = (option: any) => {
+    field.onChange(option.value);
   };
   /* Functions End */
 
@@ -58,6 +90,7 @@ const Signup = () => {
                         label="First Name"
                         name="fname"
                         isRequired={true}
+                        errors={errors.fname?.message}
                       />
                     </div>
                     <div className="w-1/2">
@@ -68,6 +101,7 @@ const Signup = () => {
                         name="lname"
                         isRequired={true}
                         register={register}
+                        errors={errors.lname?.message}
                       />
                     </div>
                   </div>
@@ -80,6 +114,7 @@ const Signup = () => {
                         name="address"
                         isRequired={true}
                         register={register}
+                        errors={errors.address?.message}
                       />
                     </div>
                   </div>
@@ -90,11 +125,14 @@ const Signup = () => {
                         inputClass={inputStyle}
                         label="Age"
                         name="age"
+                        type="number"
                         register={register}
+                        errors={errors.age?.message}
                       />
                     </div>
                     <div className="w-1/2">
                       <FormSelect
+                        name="gender"
                         labelClass={labelStyle}
                         selectClass={selectStyle}
                         label="Gender"
@@ -112,6 +150,10 @@ const Signup = () => {
                             value: 'M',
                           },
                         ]}
+                        value={field.value}
+                        onChange={handleChange}
+                        register={register}
+                        errors={errors.gender?.message}
                       />
                     </div>
                   </div>
@@ -124,6 +166,7 @@ const Signup = () => {
                         name="email"
                         isRequired={true}
                         register={register}
+                        errors={errors.email?.message}
                       />
                     </div>
                     <div className="w-1/2">
@@ -134,6 +177,7 @@ const Signup = () => {
                         name="confirm_email"
                         isRequired={true}
                         register={register}
+                        errors={errors.confirm_email?.message}
                       />
                     </div>
                   </div>
@@ -146,6 +190,7 @@ const Signup = () => {
                         name="password"
                         isRequired={true}
                         register={register}
+                        errors={errors.password?.message}
                       />
                     </div>
                     <div className="w-1/2">
@@ -156,6 +201,7 @@ const Signup = () => {
                         name="confirm_password"
                         isRequired={true}
                         register={register}
+                        errors={errors.confirm_password?.message}
                       />
                     </div>
                   </div>
