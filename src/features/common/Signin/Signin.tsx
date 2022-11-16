@@ -8,7 +8,6 @@ import Card from 'common/components/Card';
 import FormInput from 'common/components/FormInput/FormInput';
 
 import routes from 'constants/routes';
-import { getData, fetchTodos } from './signin.slice';
 
 const Sigin = () => {
   const navigate = useNavigate();
@@ -32,10 +31,6 @@ const Sigin = () => {
     navigate(routes.signup);
   };
 
-  const handleClick = () => {
-    dispatch(getData());
-  };
-
   // useEffect(() => {
   //   console.log(todos);
   // }, [todos]);
@@ -47,9 +42,6 @@ const Sigin = () => {
   return (
     <div className="flex flex-col items-center justify-center flext-auto h-screen mx-auto content-center bg-[#F3F7F9]">
       <div className="w-full">
-        {/* {users?.map((user: any) => {
-          return <p key={user.id}>{user.title}</p>;
-        })} */}
         <div className="flex flex-row items-center justify-center">
           <Card
             width="w-3/12"

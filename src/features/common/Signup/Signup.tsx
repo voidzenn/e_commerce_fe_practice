@@ -54,11 +54,7 @@ const Signup = () => {
 
   /* Functions Start */
   const handleSignup = async (formValues: any) => {
-    // e.preventDefault();
-    // const data = new FormData(e.target);
     await signup(formValues);
-    // console.log(Object.fromEntries(data.entries()));
-    console.log(errors);
   };
 
   const handleNavigation = () => {
@@ -138,19 +134,18 @@ const Signup = () => {
                         label="Gender"
                         options={[
                           {
-                            name: 'Male',
                             value: 'M',
+                            label: 'Male',
                           },
                           {
-                            name: 'Female',
-                            value: 'M',
+                            value: 'F',
+                            label: 'Femail',
                           },
                           {
-                            name: 'They / Them',
-                            value: 'M',
+                            value: 'X',
+                            label: 'They / Them',
                           },
                         ]}
-                        value={field.value}
                         onChange={handleChange}
                         register={register}
                         errors={errors.gender?.message}

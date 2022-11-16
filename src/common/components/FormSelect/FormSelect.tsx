@@ -2,15 +2,14 @@ import { FormEvent, InputHTMLAttributes } from 'react';
 import { FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface Option extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
   value: string | number;
+  label: string;
 }
 
 interface IProps {
   name: string;
   register: UseFormRegister<FieldValues>;
   options: Option[];
-  value: string;
   label?: string;
   isRequired?: boolean;
   labelClass?: string;
@@ -26,7 +25,6 @@ const FormSelect = ({
   labelClass,
   selectClass,
   options,
-  value,
   register,
   errors,
 }: IProps) => {
@@ -42,8 +40,8 @@ const FormSelect = ({
       >
         {options.map((option: Option, index: number) => {
           return (
-            <option key={index} value={value}>
-              {option.name}
+            <option key={index} value={option.value}>
+              {option.label}
             </option>
           );
         })}

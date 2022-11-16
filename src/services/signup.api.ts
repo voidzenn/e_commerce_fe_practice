@@ -9,9 +9,7 @@ export const signupApi = createApi({
       query: (data) => ({
         url: '/signup',
         method: 'POST',
-        body: {
-          data,
-        },
+        body: data,
       }),
     }),
   }),
