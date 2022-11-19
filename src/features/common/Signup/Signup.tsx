@@ -1,7 +1,8 @@
+import { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, useController } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import z, { number, string } from 'zod';
+import z, { number, string, ZodError } from 'zod';
 
 import Button from 'common/components/Button';
 import Card from 'common/components/Card';
@@ -10,13 +11,31 @@ import FormSelect from 'common/components/FormSelect/FormSelect';
 
 import routes from 'constants/routes';
 import { useSignupMutation } from 'services/signup.api';
+import { IconSpinner } from 'common/components/Icons/Icons';
+
+interface ErrorModel {
+  fname?: string;
+  lname?: string;
+  email?: string;
+  password?: string;
+}
+
+interface ApiValuesModel {
+  error: ErrorModel;
+  status: string;
+}
+
+interface ApiModel {
+  data: ApiValuesModel;
+}
 
 const schema = z
   .object({
+    role_id: string(),
     fname: string(),
     lname: string(),
     address: string(),
-    age: string() || number().nullable(),
+    age: string().max(3, { message: '' }).nullable(),
     gender: string().nullable(),
     email: string().email(),
     confirm_email: string().email(),
@@ -34,15 +53,27 @@ const schema = z
 
 const Signup = () => {
   /* Initialization Start */
+  const [message, setMessages] = useState<ReactNode | string>('');
+  const [errorMessage, setErrorMessage] = useState<ErrorModel>();
   const navigate = useNavigate();
-  const [signup, { isLoading }] = useSignupMutation();
-  const { register, control, handleSubmit, formState } = useForm({
+  const [signup, { isLoading, isError, isSuccess }] = useSignupMutation();
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm({
     resolver: zodResolver(schema),
   });
   const { field } = useController({ name: 'gender', control });
-
-  const { errors } = formState;
   /* Initialization End */
+
+  /* useEffects Start */
+  useEffect(() => {
+    // console.log(isError);
+  }, [isError]);
+  /* useEffects End */
 
   /* Styles Start */
   const labelStyle = 'text-lg w-full';
@@ -54,7 +85,19 @@ const Signup = () => {
 
   /* Functions Start */
   const handleSignup = async (formValues: any) => {
-    await signup(formValues);
+    const response: any = await signup(formValues);
+
+    if (response) {
+      const data = response.data;
+      if (data.status === 'success') {
+        reset();
+        setMessages(<div className="text-green-600">{data.message}</div>);
+      }
+      if (data.status === 'failed') {
+        setMessages('');
+        setErrorMessage({ email: data.error.email });
+      }
+    }
   };
 
   const handleNavigation = () => {
@@ -63,6 +106,10 @@ const Signup = () => {
 
   const handleChange = (option: any) => {
     field.onChange(option.value);
+  };
+
+  const handleChangeEmail = (e: any) => {
+    errorMessage && setErrorMessage({});
   };
   /* Functions End */
 
@@ -77,6 +124,29 @@ const Signup = () => {
             children={
               <form onSubmit={handleSubmit(handleSignup)}>
                 <div className="mx-5 my-10">
+                  <div className="flex gap-4 mb-4">
+                    <div className="w-1/2">
+                      <FormSelect
+                        name="role_id"
+                        labelClass={labelStyle}
+                        selectClass={selectStyle}
+                        label="Signup As"
+                        options={[
+                          {
+                            value: '3',
+                            label: 'Customer',
+                          },
+                          {
+                            value: '2',
+                            label: 'Seller',
+                          },
+                        ]}
+                        onChange={handleChange}
+                        register={register}
+                        errors={errors.gender?.message}
+                      />
+                    </div>
+                  </div>
                   <div className="flex gap-4 mb-4">
                     <div className="w-1/2">
                       <FormInput
@@ -161,7 +231,8 @@ const Signup = () => {
                         name="email"
                         isRequired={true}
                         register={register}
-                        errors={errors.email?.message}
+                        errors={errors.email?.message || errorMessage?.email}
+                        onKeyDown={handleChangeEmail}
                       />
                     </div>
                     <div className="w-1/2">
@@ -183,6 +254,7 @@ const Signup = () => {
                         inputClass={inputStyle}
                         label="Password"
                         name="password"
+                        type="password"
                         isRequired={true}
                         register={register}
                         errors={errors.password?.message}
@@ -194,14 +266,17 @@ const Signup = () => {
                         inputClass={inputStyle}
                         label="Confirm Password"
                         name="confirm_password"
+                        type="password"
                         isRequired={true}
                         register={register}
                         errors={errors.confirm_password?.message}
                       />
                     </div>
                   </div>
-
-                  <div className="flex justify-center mt-20">
+                  <div className="my-5 h-5 w-full flex justify-center">
+                    {message}
+                  </div>
+                  <div className="flex justify-center mt-5">
                     <Button
                       width="w-96"
                       height="h-10"
@@ -209,8 +284,15 @@ const Signup = () => {
                       bgColor="bg-blue-400"
                       otherProps="hover:bg-blue-500 rounded-sm"
                       children={
-                        <p className="text-white font-semibold">Signup</p>
+                        !isLoading ? (
+                          <p className="text-white font-semibold">Signup</p>
+                        ) : (
+                          <div className="w-full text-center flex justify-center">
+                            <IconSpinner />
+                          </div>
+                        )
                       }
+                      isDisabled={isSubmitting}
                     />
                   </div>
                   <div className="flex justify-center mt-3">

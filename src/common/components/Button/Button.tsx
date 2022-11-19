@@ -7,6 +7,7 @@ interface IProps {
   bgColor?: string;
   otherProps?: string;
   children?: ReactNode;
+  isDisabled?: boolean;
 }
 
 const Button = ({
@@ -16,11 +17,13 @@ const Button = ({
   bgColor = 'bg-blue-400',
   otherProps,
   children,
+  isDisabled = false,
 }: IProps) => {
   return (
     <button
       type={type}
       className={`btn ${width} ${height} ${bgColor} ${otherProps}`}
+      disabled={isDisabled}
     >
       {children}
     </button>

@@ -8,20 +8,16 @@ import './index.css';
 
 import { store } from './store';
 import reportWebVitals from './reportWebVitals';
-import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
-import { signinApi } from 'services/signin.api';
-import { signupApi } from 'services/signup.api';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <ApiProvider api={signupApi}>
-          <App />
-        </ApiProvider>
+        <App />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>

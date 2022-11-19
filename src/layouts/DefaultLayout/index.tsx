@@ -6,7 +6,6 @@ import { Routes as Router, Route } from 'react-router-dom';
 interface IProps {
   path: string;
   element: ReactElement;
-  api?: any;
 }
 
 // const ElementWithApi = (element: any, api: any) => {
@@ -24,7 +23,7 @@ interface IProps {
 //   );
 // };
 
-const DefaultLayout = ({ path, element, api }: IProps) => {
+const DefaultLayout = ({ path, element }: IProps) => {
   return (
     <Router>
       <Route path={path} element={element} />
