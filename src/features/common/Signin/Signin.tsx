@@ -11,7 +11,7 @@ import routes from 'constants/routes';
 import { useForm } from 'react-hook-form';
 import { IconEyeOpen, IconSpinner } from 'common/components/Icons/Icons';
 import { useSigninMutation } from 'services/signin.api';
-import { setAuthTokenCookie, setAuthExpCookie } from 'utils/cookies';
+import { setAuthTokenCookie, setAuthUserCookie } from 'utils/cookies';
 import { boolean } from 'zod';
 import FullPageSpinner from 'common/components/FullPageSpinner';
 
@@ -49,11 +49,18 @@ const Sigin = () => {
     const response: any = await signin(formData);
     if (response) {
       if (response.data.status === 'success') {
-        setAuthTokenCookie(response.data.token);
-        setAuthExpCookie(response.data.exp);
+        setAuthTokenCookie(response.data.auth);
+        setAuthUserCookie(response.data.user);
         message && setMessage('');
         setSpinnerState(false);
-        const timeout = setTimeout(() => navigate(routes.customer.main), 2500);
+        const timeout = setTimeout(() => {
+          if (response.data.user.user_type === 2) {
+            navigate(routes.seller.main);
+          }
+          if (response.data.user.user_type === 3) {
+            navigate(routes.customer.main);
+          }
+        }, 2500);
 
         return () => {
           clearTimeout(timeout);

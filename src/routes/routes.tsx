@@ -1,11 +1,9 @@
-import { signinApi } from 'services/signin.api';
-import { signupApi } from 'services/signup.api';
-
 import DefaultLayout from 'layouts/DefaultLayout';
 import ProtectedRoute from './ProtectedRoute/ProtectedRoute';
 import Signin from 'features/common/Signin';
 import Signup from 'features/common/Signup';
 import MainCustomer from 'features/customer/MainCustomer';
+import MainSeller from 'features/seller/MainSeller';
 
 import routes from 'constants/routes';
 
@@ -19,6 +17,14 @@ const Routes = () => {
         element={
           <ProtectedRoute>
             <MainCustomer />
+          </ProtectedRoute>
+        }
+      />
+      <DefaultLayout
+        path={routes.seller.main}
+        element={
+          <ProtectedRoute>
+            <MainSeller />
           </ProtectedRoute>
         }
       />

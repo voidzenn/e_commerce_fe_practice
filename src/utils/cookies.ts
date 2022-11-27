@@ -1,7 +1,8 @@
 import Cookies from 'universal-cookie';
+import _isString from 'lodash/isString';
 import AES from 'crypto-js/aes';
 import encUtf8 from 'crypto-js/enc-utf8';
-import { AUTH_TOKEN, AUTH_EXP } from 'constants/cookies';
+import { AUTH_TOKEN, AUTH_USER } from 'constants/cookies';
 
 const CRYPTO_KEY = 'THIS SHOULD BE IN AN ENV FILE';
 const encrypData = (str: string) => AES.encrypt(str, CRYPTO_KEY).toString();
@@ -11,10 +12,17 @@ const decryptData = (str: string) =>
 const cookies = new Cookies();
 
 const setCookie = (key: string, value: string) => {
-  cookies.set(key, encrypData(value), { path: '/' });
+  const newValue = _isString(value) ? value : JSON.stringify(value);
+  cookies.set(key, encrypData(newValue), { path: '/' });
 };
 const getCookie = (key: string) => {
-  return decryptData(cookies.get(key));
+  let value;
+  try {
+    value = decryptData(cookies.get(key));
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
 };
 const removeCookie = (key: string) => {
   cookies.remove(key);
@@ -25,7 +33,7 @@ const customCookie = {
   get: getCookie,
   remove: removeCookie,
 };
-
+// Token
 const setAuthTokenCookie = (value: string) => {
   customCookie.set(AUTH_TOKEN, value);
 };
@@ -35,22 +43,22 @@ const getAuthTokenCookie = () => {
 const removeAuthTokenCookie = () => {
   customCookie.remove(AUTH_TOKEN);
 };
-
-const setAuthExpCookie = (value: string) => {
-  customCookie.set(AUTH_EXP, value);
+// User Auth
+const setAuthUserCookie = (value: string) => {
+  customCookie.set(AUTH_USER, value);
 };
-const getAuthExpCookie = () => {
-  return customCookie.get(AUTH_EXP);
+const getAuthUserCookie = () => {
+  return customCookie.get(AUTH_USER);
 };
-const removeAuthExpCookie = () => {
-  customCookie.remove(AUTH_EXP);
+const removeAuthUserCookie = () => {
+  customCookie.remove(AUTH_USER);
 };
 
 export {
   setAuthTokenCookie,
   getAuthTokenCookie,
   removeAuthTokenCookie,
-  setAuthExpCookie,
-  getAuthExpCookie,
-  removeAuthExpCookie,
+  setAuthUserCookie,
+  getAuthUserCookie,
+  removeAuthUserCookie,
 };

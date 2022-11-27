@@ -1,7 +1,9 @@
 import React from 'react';
+import { getAuthTokenCookie, getAuthUserCookie } from 'utils/cookies';
 
 const MainCustomer = () => {
-  return <div>Mainnnn</div>;
+  console.log(getAuthUserCookie());
+  return <div>Main Customer</div>;
 };
 
 export default MainCustomer;
