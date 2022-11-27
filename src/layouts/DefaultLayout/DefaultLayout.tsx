@@ -7,22 +7,6 @@ interface IProps {
   path: string;
   element: ReactElement;
 }
-
-// const ElementWithApi = (element: any, api: any) => {
-//   return <ApiProvider api={api}>{element}</ApiProvider>;
-// };
-
-// const DefaultLayout = ({ path, element, api }: IProps) => {
-//   return (
-//     <Router>
-//       <Route
-//         path={path}
-//         element={<ElementWithApi element={element} api={api} />}
-//       />
-//     </Router>
-//   );
-// };
-
 const DefaultLayout = ({ path, element }: IProps) => {
   return (
     <Router>

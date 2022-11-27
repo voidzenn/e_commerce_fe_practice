@@ -1,13 +1,15 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { BASE_URL } from './_constants';
+
 export const signinApi = createApi({
   reducerPath: 'signinApi',
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL_ALT }),
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
   endpoints: (builder) => ({
-    getTodos: builder.query({
-      query: () => '/todos',
+    signin: builder.mutation({
+      query: (data) => ({ url: '/signin', method: 'Post', body: data }),
     }),
   }),
 });
 
-export const { useGetTodosQuery } = signinApi;
+export const { useSigninMutation } = signinApi;

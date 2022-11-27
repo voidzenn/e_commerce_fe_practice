@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // import { useGetTodosQuery } from 'services/signup.api';
@@ -9,13 +9,24 @@ import FormInput from 'common/components/FormInput/FormInput';
 
 import routes from 'constants/routes';
 import { useForm } from 'react-hook-form';
-import { IconEyeOpen } from 'common/components/Icons/Icons';
+import { IconEyeOpen, IconSpinner } from 'common/components/Icons/Icons';
+import { useSigninMutation } from 'services/signin.api';
+import { setAuthTokenCookie, setAuthExpCookie } from 'utils/cookies';
+import { boolean } from 'zod';
+import FullPageSpinner from 'common/components/FullPageSpinner';
 
 const Sigin = () => {
   /* Initialization Start */
+  const [message, setMessage] = useState<ReactNode | string>('');
+  const [spinnerState, setSpinnerState] = useState<boolean>(true);
   const navigate = useNavigate();
   const dispatch = useDispatch<any>();
-  const { register } = useForm();
+  const [signin, { isLoading, isSuccess, isError }] = useSigninMutation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
   // const users: [] = useSelector((state: any) => state.auth.users);
   /* Initialization End */
 
@@ -33,20 +44,40 @@ const Sigin = () => {
   //   isError,
   // } = useGetTodosQuery('');
 
+  /* Functions Start */
+  const handleSignin = async (formData: any) => {
+    const response: any = await signin(formData);
+    if (response) {
+      if (response.data.status === 'success') {
+        setAuthTokenCookie(response.data.token);
+        setAuthExpCookie(response.data.exp);
+        message && setMessage('');
+        setSpinnerState(false);
+        const timeout = setTimeout(() => navigate(routes.customer.main), 2500);
+
+        return () => {
+          clearTimeout(timeout);
+        };
+      }
+      if (response.data.status === 'failed') {
+        setMessage(
+          <div className="text-md text-red-500">{response.data.error}</div>
+        );
+      }
+    } else {
+      setMessage(
+        <div className="text-md text-red-500">"Error, Please try again."</div>
+      );
+    }
+  };
+
   const handleNavigation = () => {
     navigate(routes.signup);
   };
-
-  // useEffect(() => {
-  //   console.log(todos);
-  // }, [todos]);
-
-  useEffect(() => {
-    console.log(process.env.REACT_APP_BASE_URL_ALT);
-  }, []);
-
+  /* Functions End */
   return (
     <div className="flex flex-col items-center justify-center flext-auto h-screen mx-auto content-center bg-[#F3F7F9]">
+      <FullPageSpinner isHidden={spinnerState} />
       <div className="w-full">
         <div className="flex flex-row items-center justify-center">
           <Card
@@ -54,7 +85,7 @@ const Sigin = () => {
             height="h-96"
             otherProps="min-w-[500px]"
             children={
-              <form>
+              <form onSubmit={handleSubmit(handleSignin)}>
                 <div className="mx-10 my-5">
                   <div className="flex justify-center w-full my-5">
                     <p className="text-xl font-medium font-sans text-blue-500">
@@ -86,7 +117,10 @@ const Sigin = () => {
                       />
                     </div>
                   </div>
-                  <div className="flex justify-center mt-14">
+                  <div className="flex justify-center h-8 my-3">
+                    <div>{message}</div>
+                  </div>
+                  <div className="flex justify-center">
                     <Button
                       width="w-96"
                       height="h-10"
@@ -94,8 +128,15 @@ const Sigin = () => {
                       bgColor="bg-blue-400"
                       otherProps="hover:bg-blue-500 rounded-sm"
                       children={
-                        <p className="text-white font-semibold">Sign In</p>
+                        !isLoading ? (
+                          <p className="text-white font-semibold">Signup</p>
+                        ) : (
+                          <div className="w-full text-center flex justify-center">
+                            <IconSpinner />
+                          </div>
+                        )
                       }
+                      isDisabled={isSubmitting}
                     />
                   </div>
                   <div className="flex justify-center mt-3">
