@@ -55,10 +55,10 @@ const Sigin = () => {
         setSpinnerState(false);
         const timeout = setTimeout(() => {
           if (response.data.user.user_type === 2) {
-            navigate(routes.seller.main);
+            navigate(routes.seller.home);
           }
           if (response.data.user.user_type === 3) {
-            navigate(routes.customer.main);
+            navigate(routes.customer.home);
           }
         }, 2500);
 

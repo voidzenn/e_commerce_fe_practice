@@ -1,7 +1,9 @@
-import routes from 'constants/routes';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+
+import Header from 'layouts/Header';
 import { getAuthTokenCookie } from 'utils/cookies';
+import routes from 'constants/routes';
 
 interface IProps {
   children: any;
@@ -16,7 +18,12 @@ const ProtectedRoute = ({ children }: IProps) => {
     }
   }, [getAuthTokenCookie]);
 
-  return <>{children}</>;
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  );
 };
 
 export default ProtectedRoute;

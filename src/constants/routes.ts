@@ -3,9 +3,13 @@ export default {
   signin: '/signin',
   signup: '/signup',
   customer: {
-    main: '/customer/home',
+    home: '/customer/home',
+    items: '/customer/items',
+    orders: '/customer/orders',
   },
   seller: {
-    main: '/seller/home',
+    home: '/seller/home',
+    items: '/seller/items',
+    orders: '/seller/orders',
   },
 } as const;
