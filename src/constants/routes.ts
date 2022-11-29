@@ -1,5 +1,4 @@
 export default {
-  homePage: '/',
   signin: '/signin',
   signup: '/signup',
   customer: {

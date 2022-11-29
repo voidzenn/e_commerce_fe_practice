@@ -7,12 +7,28 @@ interface IProps {
   size: string;
   className?: string;
   alt?: string;
+  onClick?: any;
+  onBlur?: any;
 }
 
-const Avatar = ({ src, shape, size, className, alt = 'avatar' }: IProps) => {
+const Avatar = ({
+  src,
+  shape,
+  size,
+  className,
+  alt = 'avatar',
+  onClick,
+  onBlur,
+}: IProps) => {
   return (
     <>
-      <img className={clsx(className, shape, size)} alt={alt} src={src} />
+      <img
+        className={clsx(className, shape, size)}
+        alt={alt}
+        src={src}
+        onClick={(e) => onClick(e)}
+        onBlur={onBlur}
+      />
     </>
   );
 };

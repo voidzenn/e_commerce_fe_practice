@@ -10,7 +10,8 @@ import routes from 'constants/routes';
 const Routes = () => {
   return (
     <div>
-      <DefaultLayout path={routes.homePage} element={<Signin />} />
+      <DefaultLayout path="/" element={<Signin />} />
+      <DefaultLayout path={routes.signin} element={<Signin />} />
       <DefaultLayout path={routes.signup} element={<Signup />} />
       <DefaultLayout
         path={routes.customer.home}

@@ -25,7 +25,7 @@ const getCookie = (key: string) => {
   }
 };
 const removeCookie = (key: string) => {
-  cookies.remove(key);
+  cookies.remove(key, { path: '/' });
 };
 
 const customCookie = {

@@ -101,7 +101,7 @@ const Signup = () => {
   };
 
   const handleNavigation = () => {
-    navigate(routes.homePage);
+    navigate(routes.signin);
   };
 
   const handleChange = (option: any) => {
