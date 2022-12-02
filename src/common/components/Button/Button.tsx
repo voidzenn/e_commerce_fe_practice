@@ -5,9 +5,10 @@ interface IProps {
   height?: string;
   type?: 'button' | 'submit';
   bgColor?: string;
-  otherProps?: string;
+  className?: string;
   children?: ReactNode;
   isDisabled?: boolean;
+  onClick?: () => void;
 }
 
 const Button = ({
@@ -15,15 +16,17 @@ const Button = ({
   height = 'h-14',
   type = 'button',
   bgColor = 'bg-blue-400',
-  otherProps,
+  className,
   children,
   isDisabled = false,
+  onClick,
 }: IProps) => {
   return (
     <button
       type={type}
-      className={`btn ${width} ${height} ${bgColor} ${otherProps}`}
+      className={`btn ${width} ${height} ${bgColor} ${className}`}
       disabled={isDisabled}
+      onClick={onClick}
     >
       {children}
     </button>

@@ -16,4 +16,3 @@ const DefaultLayout = ({ path, element }: IProps) => {
 };
 
 export default DefaultLayout;
-~

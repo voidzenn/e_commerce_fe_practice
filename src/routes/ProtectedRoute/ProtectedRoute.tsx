@@ -38,7 +38,7 @@ const ProtectedRoute = ({ children }: IProps) => {
   return (
     <>
       <Header />
-      {children})
+      {children}
     </>
   );
 };

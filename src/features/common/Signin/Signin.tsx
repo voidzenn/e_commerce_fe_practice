@@ -99,7 +99,7 @@ const Sigin = () => {
           <Card
             width="w-3/12"
             height="h-96"
-            otherProps="min-w-[500px]"
+            otherClass="min-w-[500px]"
             children={
               <form onSubmit={handleSubmit(handleSignin)}>
                 <div className="mx-10 my-5">
@@ -142,7 +142,7 @@ const Sigin = () => {
                       height="h-10"
                       type="submit"
                       bgColor="bg-blue-400"
-                      otherProps="hover:bg-blue-500 rounded-sm"
+                      className="hover:bg-blue-500 rounded-sm"
                       children={
                         !isLoading ? (
                           <p className="text-white font-semibold">Signup</p>

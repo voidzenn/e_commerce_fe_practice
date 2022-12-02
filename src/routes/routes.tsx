@@ -4,6 +4,8 @@ import Signin from 'features/common/Signin';
 import Signup from 'features/common/Signup';
 import HomeCustomer from 'features/customer/HomeCustomer';
 import HomeSeller from 'features/seller/HomeSeller';
+import ItemSeller from 'features/seller/HomeSeller/ItemSeller/ItemSeller';
+import ItemCustomer from 'features/customer/HomeCustomer/ItemCustomer/ItemCustomer';
 
 import routes from 'constants/routes';
 
@@ -21,11 +23,29 @@ const Routes = () => {
           </ProtectedRoute>
         }
       />
+      {/* Customer */}
+      <DefaultLayout
+        path={routes.customer.items}
+        element={
+          <ProtectedRoute>
+            <ItemCustomer />
+          </ProtectedRoute>
+        }
+      />
+      {/* Seller */}
       <DefaultLayout
         path={routes.seller.home}
         element={
           <ProtectedRoute>
             <HomeSeller />
+          </ProtectedRoute>
+        }
+      />
+      <DefaultLayout
+        path={routes.seller.items}
+        element={
+          <ProtectedRoute>
+            <ItemSeller />
           </ProtectedRoute>
         }
       />
