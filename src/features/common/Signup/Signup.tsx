@@ -12,6 +12,12 @@ import FormSelect from 'common/components/FormSelect/FormSelect';
 import routes from 'constants/routes';
 import { useSignupMutation } from 'services/signup.api';
 import { IconSpinner } from 'common/components/Icons/Icons';
+import {
+  ApiDataModel,
+  ApiResponseModel,
+  OptionsModel,
+  SignupModel,
+} from './types';
 
 interface ErrorModel {
   fname?: string;
@@ -84,8 +90,10 @@ const Signup = () => {
   /* Styles End */
 
   /* Functions Start */
-  const handleSignup = async (formValues: any) => {
-    const response: any = await signup(formValues);
+  const handleSignup = async (formValues: SignupModel) => {
+    const response: ApiResponseModel = (await signup(
+      formValues
+    )) as ApiResponseModel;
 
     if (response) {
       const data = response.data;
@@ -104,11 +112,11 @@ const Signup = () => {
     navigate(routes.signin);
   };
 
-  const handleChange = (option: any) => {
+  const handleChange = (option: OptionsModel) => {
     field.onChange(option.value);
   };
 
-  const handleChangeEmail = (e: any) => {
+  const handleChangeEmail = () => {
     errorMessage && setErrorMessage({});
   };
   /* Functions End */

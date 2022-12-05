@@ -1,4 +1,4 @@
-import Pusher from 'pusher-js';
+import Pusher from 'pusher';
 
 import Avatar from 'common/components/Avatar/Avatar';
 import Button from 'common/components/Button';
@@ -8,40 +8,44 @@ import Modal from 'common/components/Modal';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useCreateItemMutation, useGetItemsQuery } from 'services/items.api';
+import { useCreateOrderMutation } from 'services/orders.api';
+
+// const pusher = new Pusher({
+//   appId: '1518958',
+//   key: 'f2fe33d67c1c6529519b',
+//   secret: 'ace02205068ee47a688a',
+//   cluster: 'ap1',
+//   useTLS: true,
+// });
 
 const ItemCustomer = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { register, handleSubmit } = useForm();
-  const { data: itemsData } = useGetItemsQuery({});
-  const [createItem, { isLoading, isError, isSuccess }] =
-    useCreateItemMutation();
+  const { data: itemsData } = useGetItemsQuery('');
+  const [createOrder, { isLoading, isError, isSuccess }] =
+    useCreateOrderMutation();
+  const [pusherData, setPusherData] = useState<any>('');
+  let messages = [];
 
   // const queryItems = async () => {
   //   const response = getItems();
   //   console.log(response);
   // };
 
-  Pusher.logToConsole = true;
-
-  var pusher = new Pusher('f2fe33d67c1c6529519b', {
-    cluster: 'ap1',
-  });
-
-  var channel = pusher.subscribe('my-channel');
-  channel.bind('my-event', function (data: any) {
-    alert(JSON.stringify(data));
-  });
-
-  console.log(pusher);
-
   const inputStyle =
     'border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm h-10 w-full text-lg px-2 mt-2 mb-4';
 
   const handleSaveItem = async (formValues: any) => {
-    await createItem(formValues);
+    // await createItem(formValues);
   };
 
-  console.log(itemsData);
+  const handleClick = async () => {
+    const response = await createOrder({ user_id: 3, item_id: 3 });
+
+    // pusher.trigger('my-channel', 'client-order', {
+    //   message: 'hello world',
+    // });
+  };
 
   const ItemCards = () => {
     return (
@@ -65,6 +69,7 @@ const ItemCustomer = () => {
                         }
                         width="h-8"
                         height="w-32"
+                        onClick={handleClick}
                       />
                     </div>
                   </div>
@@ -83,15 +88,7 @@ const ItemCustomer = () => {
   return (
     <div className="w-full h-screen">
       <div className="flex w-full h-16 justify-end pr-14 my-8">
-        <Button
-          width="w-32"
-          height="h-10"
-          className="bg-blue-600"
-          children={
-            <div className="text-white text-md font-semibold">Add Item</div>
-          }
-          onClick={() => setModalOpen(true)}
-        />
+        <></>
       </div>
       <div className="">
         <Modal

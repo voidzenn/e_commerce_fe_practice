@@ -19,6 +19,7 @@ import {
 } from 'utils/cookies';
 import { boolean } from 'zod';
 import FullPageSpinner from 'common/components/FullPageSpinner';
+import { SigninModel } from './types';
 
 const Sigin = () => {
   /* Initialization Start */
@@ -54,7 +55,7 @@ const Sigin = () => {
   // } = useGetTodosQuery('');
 
   /* Functions Start */
-  const handleSignin = async (formData: any) => {
+  const handleSignin = async (formData: SigninModel) => {
     const response: any = await signin(formData);
     if (response) {
       if (response.data.status === 'success') {

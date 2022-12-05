@@ -1,1 +1,4 @@
-export const data = 1;
+export interface SigninModel {
+  email?: string;
+  password?: string;
+}

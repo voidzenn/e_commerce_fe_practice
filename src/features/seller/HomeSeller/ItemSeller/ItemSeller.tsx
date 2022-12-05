@@ -1,3 +1,5 @@
+import Pusher from 'pusher-js';
+
 import Avatar from 'common/components/Avatar/Avatar';
 import Button from 'common/components/Button';
 import Card from 'common/components/Card/Card';
@@ -6,11 +8,20 @@ import Modal from 'common/components/Modal';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useCreateItemMutation, useGetItemsQuery } from 'services/items.api';
+import { ItemsModel } from './types';
+
+// Pusher.logToConsole = true;
+
+// const pusher = new Pusher('f2fe33d67c1c6529519b', {
+//   cluster: 'ap1',
+// });
+
+// const channel = pusher.subscribe('my-channel');
 
 const ItemSeller = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { register, handleSubmit } = useForm();
-  const { data: itemsData } = useGetItemsQuery({});
+  const { data: itemsData } = useGetItemsQuery('');
   const [createItem, { isLoading, isError, isSuccess }] =
     useCreateItemMutation();
 
@@ -19,14 +30,20 @@ const ItemSeller = () => {
   //   console.log(response);
   // };
 
+  // Pusher.logToConsole = true;
+
+  // useEffect(() => {
+  //   channel.bind('client-order', function (data: any) {
+  //     console.log(data);
+  //   });
+  // }, []);
+
   const inputStyle =
     'border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm h-10 w-full text-lg px-2 mt-2 mb-4';
 
-  const handleSaveItem = async (formValues: any) => {
+  const handleSaveItem = async (formValues: ItemsModel) => {
     await createItem(formValues);
   };
-
-  console.log(itemsData);
 
   const ItemCards = () => {
     return (

@@ -11,4 +11,5 @@ export default {
     items: '/seller/items',
     orders: '/seller/orders',
   },
+  pusher: 'pusher',
 } as const;
