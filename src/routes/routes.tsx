@@ -4,8 +4,8 @@ import Signin from 'features/common/Signin';
 import Signup from 'features/common/Signup';
 import HomeCustomer from 'features/customer/HomeCustomer';
 import HomeSeller from 'features/seller/HomeSeller';
-import ItemSeller from 'features/seller/HomeSeller/ItemSeller/ItemSeller';
-import ItemCustomer from 'features/customer/HomeCustomer/ItemCustomer/ItemCustomer';
+import ItemSeller from 'features/seller/ItemSeller/ItemSeller';
+import ItemCustomer from 'features/customer/ItemCustomer/ItemCustomer';
 
 import routes from 'constants/routes';
 

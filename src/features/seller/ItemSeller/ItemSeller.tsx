@@ -1,5 +1,3 @@
-import Pusher from 'pusher-js';
-
 import Avatar from 'common/components/Avatar/Avatar';
 import Button from 'common/components/Button';
 import Card from 'common/components/Card/Card';
@@ -10,33 +8,12 @@ import { useForm } from 'react-hook-form';
 import { useCreateItemMutation, useGetItemsQuery } from 'services/items.api';
 import { ItemsModel } from './types';
 
-// Pusher.logToConsole = true;
-
-// const pusher = new Pusher('f2fe33d67c1c6529519b', {
-//   cluster: 'ap1',
-// });
-
-// const channel = pusher.subscribe('my-channel');
-
 const ItemSeller = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const { register, handleSubmit } = useForm();
   const { data: itemsData } = useGetItemsQuery('');
   const [createItem, { isLoading, isError, isSuccess }] =
     useCreateItemMutation();
-
-  // const queryItems = async () => {
-  //   const response = getItems();
-  //   console.log(response);
-  // };
-
-  // Pusher.logToConsole = true;
-
-  // useEffect(() => {
-  //   channel.bind('client-order', function (data: any) {
-  //     console.log(data);
-  //   });
-  // }, []);
 
   const inputStyle =
     'border-2 border-blue-200 focus:border-blue-500 focus:outline-none rounded-sm h-10 w-full text-lg px-2 mt-2 mb-4';
@@ -48,7 +25,7 @@ const ItemSeller = () => {
   const ItemCards = () => {
     return (
       <div className="flex flex-wrap columns-3 h-auto">
-        {itemsData?.data.map((item: any) => {
+        {itemsData?.data?.map((item: any) => {
           return (
             <div className="w-1/3 px-5 py-5 h-auto">
               <Card
